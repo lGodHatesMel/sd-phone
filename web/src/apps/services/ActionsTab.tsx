@@ -89,10 +89,11 @@ export function ActionsTab({ myCompany, multijob = false, invoicesEnabled = fals
                 <SectionHeader>{t('services.settings', 'Settings')}</SectionHeader>
                 <div className="overflow-hidden rounded-[12px] bg-surface">
                     <Row
+                        dimmed={myCompany.restrictedFromPhoneDuty}
                         icon={<Tile color="#FF9F0A"><Hourglass className="h-[18px] w-[18px] text-white" strokeWidth={2.25} /></Tile>}
                         title={t('services.duty', 'Duty')}
-                        subtitle={t('services.dutyOnOff', 'Go on or off duty')}
-                        right={<Toggle on={myCompany.duty} onChange={v => void toggle('duty', v)} />}
+                        subtitle={myCompany.restrictedFromPhoneDuty ? t('services.dutyAtLocation', 'Clock in/out at your workplace') : t('services.dutyOnOff', 'Go on or off duty')}
+                        right={<Toggle disabled={myCompany.restrictedFromPhoneDuty} on={myCompany.duty} onChange={v => void toggle('duty', v)} />}
                     />
                     {myCompany.isCompany && (
                         <>

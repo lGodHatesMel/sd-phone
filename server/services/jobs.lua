@@ -205,4 +205,27 @@ function jobs.decline(src, payload)
     return jobs.list(src)
 end
 
+---Send a job offer to a player via their phone
+---@param citizenid string Player's citizenid
+---@param jobName string Job to offer
+---@param grade integer Grade level for the job
+---@param invitedBy string|nil Name of the person/entity sending invite (defaults to 'A manager')
+---@return boolean success
+function jobs.sendOffer(citizenid, jobName, grade, invitedBy)
+    if not citizenid or citizenid == '' then return false end
+    if not jobName or jobName == '' then return false end
+    if job.supportsMultijob() == false then return false end
+
+    store.addInvite({
+        id = store.newId(),
+        cid = citizenid,
+        job = jobName,
+        grade = math.floor(tonumber(grade) or 0),
+        invitedBy = invitedBy,
+        createdAt = os.time(),
+    })
+
+    return true
+end
+
 return jobs

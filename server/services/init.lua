@@ -106,3 +106,26 @@ exports('messageCompany', function(source, payload)
     local result = actions.messageCompany(source, payload)
     return { success = result.success == true, message = result.message }
 end)
+
+---invites to players via the phone system. Players must accept the invite for it to take effect.
+---@param citizenid string Player's citizenid
+---@param jobName string Job to offer
+---@param grade integer Grade level for the job (default 0)
+---@param invitedBy string|nil Name of hiring manager (defaults to 'A manager')
+---@return boolean success true when invite was queued in the database
+exports('sendJobOffer', function(citizenid, jobName, grade, invitedBy)
+    if type(citizenid) ~= 'string' or citizenid == '' then return false end
+    if type(jobName) ~= 'string' or jobName == '' then return false end
+    return jobs.sendOffer(citizenid, jobName, grade, invitedBy)
+end)
+
+---toggle a player's job duty status and sync it to the phone. Respects RestrictedFromPhoneDuty config.
+---@param source number Player's server ID
+---@param onDuty boolean true = go on duty, false = go off duty
+---@return boolean success true when duty was updated
+exports('setDuty', function(source, onDuty)
+    if type(source) ~= 'number' or source <= 0 then return false end
+    if type(onDuty) ~= 'boolean' then return false end
+    local result = actions.setDuty(source, { on = onDuty })
+    return result and result.success == true
+end)

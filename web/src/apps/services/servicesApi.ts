@@ -19,6 +19,7 @@ export interface MyCompany {
     balance?:   number;
     grades?:    Grade[];
     employees?: Employee[];
+    restrictedFromPhoneDuty?: boolean;
 }
 
 export interface Directory {

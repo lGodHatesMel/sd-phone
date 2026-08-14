@@ -21,6 +21,9 @@ return {
     -- Jobs never listed, switchable, or accept-able from the Jobs tab (resign to
     -- unemployed via the Actions tab's Quit instead).
     JobBlacklist = { 'unemployed' },
+    -- Jobs that cannot toggle duty on/off from the phone.
+    -- Players in these jobs must use your server's on-off duty system (e.g., police).
+    RestrictedFromPhoneDuty = {},
     -- Drop the player off duty when they switch active job (mirrors sd-multijob).
     SwitchOffDuty = true,
 

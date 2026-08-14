@@ -40,6 +40,13 @@ local BLACKLIST = {}
 for _, j in ipairs(SV.JobBlacklist or { 'unemployed' }) do BLACKLIST[j] = true end
 BLACKLIST[UNEMPLOYED] = true
 
+-- Jobs that cannot toggle duty from the phone.
+---@type table<string, boolean> Set of job names restricted from phone duty toggling.
+local RESTRICTED_FROM_PHONE_DUTY = {}
+for _, j in ipairs(SV.RestrictedFromPhoneDuty) do
+    RESTRICTED_FROM_PHONE_DUTY[j] = true
+end
+
 ---ESX boss-grade threshold for a job: the per-company bossGrade override, else DefaultBossGrade.
 ---QBCore/QBox ignore this - job.isBoss reads the grade's isboss flag there.
 ---@param jobName string framework job name
@@ -134,6 +141,7 @@ local function buildMyCompany(src)
         jobCalls    = prefs.jobCalls,
         jobMessages = prefs.jobMessages,
         myGrade     = grade,
+        restrictedFromPhoneDuty = RESTRICTED_FROM_PHONE_DUTY[myJob] == true,
     }
 
     if isBoss then
